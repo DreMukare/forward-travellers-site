@@ -1,7 +1,7 @@
 function App() {
 	return (
-		<div className='App'>
-			<header className='App-header'>Hellow World</header>
+		<div className='container'>
+			<h1>beginning</h1>
 		</div>
 	);
 }
