@@ -7,6 +7,7 @@ import LoginUser from './pages/LoginUser';
 import LoginMember from './pages/LoginMember';
 import MemberInfo from './pages/MemberInfo';
 import NotFound from './pages/NotFound';
+import { AuthProvider } from './context/AuthContext';
 
 const Div = styled.div`
 	margin: auto;
@@ -17,19 +18,21 @@ const Div = styled.div`
 
 function App() {
 	return (
-		<Router>
-			<Div className='container'>
-				<Switch>
-					<Route path='/' exact component={LoginLinks} />
-					<Route path='/home-user' component={HomeUser} />
-					<Route path='/login-user' component={LoginUser} />
-					<Route path='/login-member' component={LoginMember} />
-					<Route path='/home-member' component={HomeMember} />
-					<Route path='/member-info' component={MemberInfo} />
-					<Route component={NotFound} />
-				</Switch>
-			</Div>
-		</Router>
+		<AuthProvider>
+			<Router>
+				<Div className='container'>
+					<Switch>
+						<Route path='/' exact component={LoginLinks} />
+						<Route path='/home-user' component={HomeUser} />
+						<Route path='/login-user' component={LoginUser} />
+						<Route path='/login-member' component={LoginMember} />
+						<Route path='/home-member' component={HomeMember} />
+						<Route path='/member-info' component={MemberInfo} />
+						<Route component={NotFound} />
+					</Switch>
+				</Div>
+			</Router>
+		</AuthProvider>
 	);
 }
 

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Linker from '../components/Linker';
 
 const Div = styled.div`
 	display: flex;
@@ -25,6 +26,7 @@ const NotFound = () => {
 				alt='resource not found'
 			/>
 			<ErrorText>404 Not Found!</ErrorText>
+			<Linker dest='/' text='Go Back To The Start' />
 		</Div>
 	);
 };
