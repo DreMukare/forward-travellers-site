@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const LogoText = styled.p`
 	font-family: 'Maven Pro', sans-serif;
-	font-size: 50px;
+	font-size: ${(props) => props.size || '50px'};
 	background: linear-gradient(
 		105deg,
 		rgba(142, 47, 92, 1) 25%,
@@ -14,10 +14,12 @@ const LogoText = styled.p`
 	margin-bottom: ${(props) => props.marginBottom || '80px'};
 `;
 
-const Logo = () => {
+const Logo = ({ marginTop, marginBottom, size }) => {
 	return (
 		<>
-			<LogoText>FORWARD TRAVELLERS</LogoText>
+			<LogoText marginTop={marginTop} marginBottom={marginBottom} size={size}>
+				FORWARD TRAVELLERS
+			</LogoText>
 		</>
 	);
 };

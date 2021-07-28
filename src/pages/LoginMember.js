@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useState } from 'react';
 import { Card, Form, Button, Alert, Container } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const LoginMember = () => {
@@ -24,7 +24,7 @@ const LoginMember = () => {
 			setError('Failed to sign in');
 		}
 
-		console.log(currentUser.email);
+		currentUser && console.log(currentUser.email);
 		setLoading(false);
 	};
 
@@ -50,6 +50,9 @@ const LoginMember = () => {
 							Log In As Sacco Member
 						</Button>
 					</Form>
+					<div className='w-100 text-center mt-3'>
+						<Link to='/forgot-password-member'>Forgot Password?</Link>
+					</div>
 				</Card.Body>
 			</Card>
 		</Container>

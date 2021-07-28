@@ -7,7 +7,10 @@ import LoginUser from './pages/LoginUser';
 import LoginMember from './pages/LoginMember';
 import MemberInfo from './pages/MemberInfo';
 import NotFound from './pages/NotFound';
+import UpdateMember from './pages/UpdateMember';
 import PrivateRoute from './components/PrivateRoute';
+import ForgotPasswordMember from './pages/ForgotPasswordMember';
+import ForgotPasswordUser from './pages/ForgotPasswordUser';
 import { AuthProvider } from './context/AuthContext';
 
 const Div = styled.div`
@@ -23,12 +26,25 @@ function App() {
 			<Router>
 				<Div className='container'>
 					<Switch>
-						<Route path='/' exact component={LoginLinks} />
+						<Route path='/' name='member' exact component={LoginLinks} />
 						<PrivateRoute path='/home-user' component={HomeUser} />
 						<Route path='/login-user' component={LoginUser} />
 						<Route path='/login-member' component={LoginMember} />
-						<PrivateRoute path='/home-member' component={HomeMember} />
+						<Route path='/update-member' component={UpdateMember} />
+						<PrivateRoute
+							path='/home-member'
+							name='member'
+							component={HomeMember}
+						/>
 						<Route path='/member-info' component={MemberInfo} />
+						<Route
+							path='/forgot-password-member'
+							component={ForgotPasswordMember}
+						/>
+						<Route
+							path='/forgot-password-user'
+							component={ForgotPasswordUser}
+						/>
 						<Route component={NotFound} />
 					</Switch>
 				</Div>
