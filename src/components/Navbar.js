@@ -43,16 +43,16 @@ const LinkTo = styled(Link)`
 	}
 `;
 
-const Navbar = () => {
+const Navbar = ({ person }) => {
 	return (
 		<Nav>
 			<Logo marginTop='5px' marginBottom='5px' size='30px' />
 			<ul className='btns'>
 				<li>
-					<LinkTo to='/home-member'>Home</LinkTo>
+					<LinkTo to={`/home-${person}`}>Home</LinkTo>
 				</li>
 				<li>
-					<LinkTo to='/update-member'>Change Email or Password</LinkTo>
+					<LinkTo to={`/update-${person}`}>Change Password</LinkTo>
 				</li>
 				<li>
 					<LogOutBtn />

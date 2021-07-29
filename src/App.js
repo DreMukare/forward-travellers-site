@@ -8,6 +8,7 @@ import LoginMember from './pages/LoginMember';
 import MemberInfo from './pages/MemberInfo';
 import NotFound from './pages/NotFound';
 import UpdateMember from './pages/UpdateMember';
+import UpdateUser from './pages/UpdateUser';
 import PrivateRoute from './components/PrivateRoute';
 import ForgotPasswordMember from './pages/ForgotPasswordMember';
 import ForgotPasswordUser from './pages/ForgotPasswordUser';
@@ -26,16 +27,13 @@ function App() {
 			<Router>
 				<Div className='container'>
 					<Switch>
-						<Route path='/' name='member' exact component={LoginLinks} />
+						<Route path='/' exact component={LoginLinks} />
 						<PrivateRoute path='/home-user' component={HomeUser} />
 						<Route path='/login-user' component={LoginUser} />
 						<Route path='/login-member' component={LoginMember} />
-						<Route path='/update-member' component={UpdateMember} />
-						<PrivateRoute
-							path='/home-member'
-							name='member'
-							component={HomeMember}
-						/>
+						<PrivateRoute path='/update-member' component={UpdateMember} />
+						<PrivateRoute path='/update-user' component={UpdateUser} />
+						<PrivateRoute path='/home-member' component={HomeMember} />
 						<Route path='/member-info' component={MemberInfo} />
 						<Route
 							path='/forgot-password-member'

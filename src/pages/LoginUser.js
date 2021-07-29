@@ -1,7 +1,6 @@
-import React, { useRef } from 'react';
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Card, Form, Button, Alert, Container } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const LoginUser = () => {
@@ -50,6 +49,9 @@ const LoginUser = () => {
 							Log In As Sacco Employee
 						</Button>
 					</Form>
+					<div className='w-100 text-center mt-3'>
+						<Link to='/forgot-password-user'>Forgot Password?</Link>
+					</div>
 				</Card.Body>
 			</Card>
 		</Container>

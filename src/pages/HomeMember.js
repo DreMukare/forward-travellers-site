@@ -61,7 +61,7 @@ const HomeMember = () => {
 
 	return (
 		<div>
-			<Navbar />
+			<Navbar person='member' />
 			<DisplayDetails>
 				<h2>
 					{currentData[0]['first-name']} {currentData[0]['last-name']}

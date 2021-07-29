@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Card, Form, Button, Alert, Container } from 'react-bootstrap';
 
-const UpdateMember = () => {
+const UpdateUser = () => {
 	const { updatePassword } = useAuth();
 	const history = useHistory();
 	const passwordRef = useRef();
@@ -71,10 +71,10 @@ const UpdateMember = () => {
 				</Card.Body>
 			</Card>
 			<div className='w-100 text-center mt-2'>
-				<Link to='/home-member'>Cancel</Link>
+				<Link to='/home-user'>Cancel</Link>
 			</div>
 		</Container>
 	);
 };
 
-export default UpdateMember;
+export default UpdateUser;
