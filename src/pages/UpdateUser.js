@@ -48,7 +48,7 @@ const UpdateUser = () => {
 					<h2 className='text-center mb-4'>Update Profile</h2>
 					{error && <Alert variant='danger'>{error}</Alert>}
 					<Form onSubmit={handleSubmit}>
-						<Form.Group id='password'>
+						<Form.Group id='password' className='mb-4'>
 							<Form.Label>Password</Form.Label>
 							<Form.Control
 								type='password'
@@ -56,7 +56,7 @@ const UpdateUser = () => {
 								placeholder='Leave blank to keep the same'
 							/>
 						</Form.Group>
-						<Form.Group id='password-confirm'>
+						<Form.Group id='password-confirm' className='mb-4'>
 							<Form.Label>Password Confirmation</Form.Label>
 							<Form.Control
 								type='password'

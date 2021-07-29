@@ -5,49 +5,43 @@ import Navbar from '../components/Navbar';
 import styled from 'styled-components';
 
 const DisplayDetails = styled.div`
-	margin-top: 200px;
+	margin-top: 20px;
 	padding: 20px;
 `;
 
-// const Section = styled.section`
-// 	display: flex;
-// 	flex-wrap: wrap;
-// 	justify-content: space-around;
-// `;
+const Cluster = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+`;
 
-// const Div = styled.div`
-// 	backdrop-filter: blur(6px) saturate(54%);
-// 	-webkit-backdrop-filter: blur(6px) saturate(54%);
-// 	background-color: rgba(17, 25, 40, 0.2);
-// 	border-radius: 12px;
-// 	border: 1px solid rgba(255, 255, 255, 0.125);
-// 	display: flex;
-// 	flex-direction: column;
-// 	justify-content: center;
-// 	align-items: space-around;
+const Section = styled.section`
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+`;
 
-// 	margin: 10px;
-// 	height: 180px;
-// 	width: 180px;
-// `;
+const Div = styled.div`
+	border: 1px solid #8e2f5c;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 
-// const Title = styled.p`
-// 	color: #fbfbfb;
-// 	font-size: 15px;
-// 	text-align: center;
-// 	margin-top: 5px;
-// `;
-// const Data = styled.p`
-// 	font-size: 40px;
-// 	text-align: center;
-// 	color: #749d34;
-// `;
+	margin: 10px;
+	height: 200px;
+	width: 250px;
+`;
 
 const HomeUser = () => {
 	const { currentUser } = useAuth();
 	const [users, setUsers] = useState([]);
 
 	const currentData = users;
+
+	const handleClick = () => {
+		console.log(currentData);
+		console.log(currentUser);
+	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -61,29 +55,27 @@ const HomeUser = () => {
 		<div>
 			<Navbar person='user' />
 			<DisplayDetails>
-				{/*			<h2>
-					{currentData[0]['first-name']} {currentData[0]['last-name']}
-				</h2>
-				<Section>
-					<Div>
-						<Title>Daily Sacco Contribution</Title>
-						<Data>{currentData[0]['daily-contribution']}Ksh</Data>
-					</Div>
-					<Div>
-						<Title>Legal Fees</Title>
-						<Data>{currentData[0]['legal-fees']}Ksh</Data>
-					</Div>
-					<Div>
-						<Title>Operation Fees</Title>
-						<Data>{currentData[0]['operation-fees']}Ksh</Data>
-					</Div>
-					<Div>
-						<Title>Insurance Fees</Title>
-						<Data>{currentData[0]['insurance-fees']}Ksh</Data>
-					</Div>
-	</Section> */}
-				{currentData}
-				{currentUser.email}
+				<h1>Sacco Member Details</h1>
+				<Cluster>
+					{currentData.map((member, index) => (
+						<React.Fragment key={index}>
+							<Section>
+								<Div>
+									<h2>
+										{member['first-name']} {member['last-name']}
+									</h2>
+									<span>
+										Daily Sacco Contribution: {member['daily-contribution']}Ksh
+									</span>
+									<span>Legal Fees: {member['legal-fees']}Ksh</span>
+									<span>Operation Fees: {member['operation-fees']}Ksh</span>
+									<span>Insurance Fees: {member['insurance-fees']}Ksh</span>
+								</Div>
+							</Section>
+						</React.Fragment>
+					))}
+				</Cluster>
+				<button onClick={handleClick}></button>
 			</DisplayDetails>
 		</div>
 	);

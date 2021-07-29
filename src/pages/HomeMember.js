@@ -51,6 +51,10 @@ const HomeMember = () => {
 		return user.uuid === currentUser.uid;
 	});
 
+	// const handleClick = () => {
+	// 	console.log(currentData);
+	// };
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const data = await projectFirestore.collection('users').get();
@@ -85,6 +89,7 @@ const HomeMember = () => {
 					</Div>
 				</Section>
 			</DisplayDetails>
+			{/* <button onClick={handleClick}>Show Data</button> */}
 		</div>
 	);
 };
