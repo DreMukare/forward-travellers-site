@@ -39,8 +39,8 @@ const HomeUser = () => {
 	const currentData = users;
 
 	const handleClick = () => {
-		console.log(currentData);
-		console.log(currentUser);
+		console.log(projectFirestore.collection('users'));
+		console.log(currentUser.uid);
 	};
 
 	useEffect(() => {

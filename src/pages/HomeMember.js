@@ -51,44 +51,50 @@ const HomeMember = () => {
 		return user.uuid === currentUser.uid;
 	});
 
+	const dataObj = currentData[0];
+
 	// const handleClick = () => {
-	// 	console.log(currentData);
+	// 	console.log(dataObj);
 	// };
 
 	useEffect(() => {
+		let isMounted = true;
 		const fetchData = async () => {
 			const data = await projectFirestore.collection('users').get();
-			setUsers(data.docs.map((doc) => doc.data()));
+			if (isMounted) setUsers(data.docs.map((doc) => doc.data()));
 		};
 		fetchData();
+		return () => (isMounted = false);
 	}, []);
 
 	return (
 		<div>
 			<Navbar person='member' />
-			<DisplayDetails>
-				<h2>
-					{currentData[0]['first-name']} {currentData[0]['last-name']}
-				</h2>
-				<Section>
-					<Div>
-						<Title>Daily Sacco Contribution</Title>
-						<Data>{currentData[0]['daily-contribution']}Ksh</Data>
-					</Div>
-					<Div>
-						<Title>Legal Fees</Title>
-						<Data>{currentData[0]['legal-fees']}Ksh</Data>
-					</Div>
-					<Div>
-						<Title>Operation Fees</Title>
-						<Data>{currentData[0]['operation-fees']}Ksh</Data>
-					</Div>
-					<Div>
-						<Title>Insurance Fees</Title>
-						<Data>{currentData[0]['insurance-fees']}Ksh</Data>
-					</Div>
-				</Section>
-			</DisplayDetails>
+			{dataObj && (
+				<DisplayDetails>
+					<h2>
+						{dataObj['first-name']} {dataObj['last-name']}
+					</h2>
+					<Section>
+						<Div>
+							<Title>Daily Sacco Contribution</Title>
+							<Data>{dataObj['daily-contribution']}Ksh</Data>
+						</Div>
+						<Div>
+							<Title>Legal Fees</Title>
+							<Data>{dataObj['legal-fees']}Ksh</Data>
+						</Div>
+						<Div>
+							<Title>Operation Fees</Title>
+							<Data>{dataObj['operation-fees']}Ksh</Data>
+						</Div>
+						<Div>
+							<Title>Insurance Fees</Title>
+							<Data>{dataObj['insurance-fees']}Ksh</Data>
+						</Div>
+					</Section>
+				</DisplayDetails>
+			)}
 			{/* <button onClick={handleClick}>Show Data</button> */}
 		</div>
 	);
