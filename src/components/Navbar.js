@@ -6,13 +6,17 @@ import { Link } from 'react-router-dom';
 
 const Nav = styled.nav`
 	display: flex;
-	justify-content: space-between;
+	justify-content: center;
 	align-items: center;
 	width: 100%;
-	border: 1px solid #8e2f5c;
+	position: fixed;
+	top: 0;
+	left: 0;
+	border-bottom: 1px solid #2b003b;
 	padding-left: 25px;
 	padding-right: 25px;
 	max-height: 90px;
+	background-color: #fbfbfb;
 
 	.btns {
 		display: flex;
@@ -26,6 +30,13 @@ const Nav = styled.nav`
 		min-width: 80px;
 		padding-right: 20px;
 	}
+`;
+
+const Mid = styled.section`
+	display: flex;
+	justify-content: space-between;
+	height: inherit;
+	width: 60%;
 `;
 
 const LinkTo = styled(Link)`
@@ -46,18 +57,20 @@ const LinkTo = styled(Link)`
 const Navbar = ({ person }) => {
 	return (
 		<Nav>
-			<Logo marginTop='5px' marginBottom='5px' size='30px' />
-			<ul className='btns'>
-				<li>
-					<LinkTo to={`/home-${person}`}>Home</LinkTo>
-				</li>
-				<li>
-					<LinkTo to={`/update-${person}`}>Change Password</LinkTo>
-				</li>
-				<li>
-					<LogOutBtn />
-				</li>
-			</ul>
+			<Mid>
+				<Logo marginTop='5px' marginBottom='5px' size='30px' />
+				<ul className='btns'>
+					<li>
+						<LinkTo to={`/home-${person}`}>Home</LinkTo>
+					</li>
+					<li>
+						<LinkTo to={`/update-${person}`}>Change Password</LinkTo>
+					</li>
+					<li>
+						<LogOutBtn />
+					</li>
+				</ul>
+			</Mid>
 		</Nav>
 	);
 };
