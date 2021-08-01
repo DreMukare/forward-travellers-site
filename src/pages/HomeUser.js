@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { projectFirestore } from '../firebase/config';
-import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import styled from 'styled-components';
 import { FaPencilAlt } from 'react-icons/fa';
@@ -47,52 +46,67 @@ const Btn = styled.button`
 `;
 
 const HomeUser = () => {
-	const { currentUser } = useAuth();
 	const [users, setUsers] = useState([]);
 	const [error, setError] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [toggle, setToggle] = useState(false);
+	const [daily, setDaily] = useState('');
+	const [legal, setLegal] = useState('');
+	const [ops, setOps] = useState('');
+	const [insurance, setInsurance] = useState('');
 	const dailyContributionRef = useRef();
 	const insuranceFeesRef = useRef();
 	const operationFeesRef = useRef();
 	const legalFeesRef = useRef();
-	const [memberId, setMemberId] = useState('');
 
-	const currentData = users;
-
-	const handleChange = (id) => {
-		setMemberId(id);
-	};
-
-	const handleToggle = (index) => {
+	const handleToggle = () => {
 		setToggle((toggle) => !toggle);
 	};
 
-	const handleClick = () => {
-		console.log(projectFirestore.collection('users'));
-		console.log(currentUser.uid);
+	const handleChange = (e) => {
+		switch (e.target.name) {
+			case 'daily':
+				setDaily(e.currentTarget.value);
+				break;
+			case 'legal':
+				setLegal(e.currentTarget.value);
+				break;
+			case 'ops':
+				setOps(e.currentTarget.value);
+				break;
+			case 'insurance':
+				setInsurance(e.currentTarget.value);
+				break;
+			default:
+				console.log(e.currentTarget.value);
+		}
 	};
 
-	const handleSubmit = async (e) => {
+	const handleClick = () => {
+		console.log(daily);
+		console.log(legalFeesRef.current.value);
+		console.log(operationFeesRef.current.value);
+		console.log(insuranceFeesRef.current.value);
+	};
+
+	const handleSubmit = (id) => async (e) => {
 		e.preventDefault();
 
 		try {
 			setLoading(true);
-			await projectFirestore
-				.collection('users')
-				.where('uuid', '==', memberId)
-				.update({
-					'daily-contribution': dailyContributionRef.current.value,
-					'legal-fees': legalFeesRef.current.value,
-					'operation-fees': operationFeesRef.current.value,
-					'insurance-fees': insuranceFeesRef.current.value,
-				});
+			setError('');
+			await projectFirestore.collection('users').doc(id).update({
+				'daily-contribution': daily,
+				'legal-fees': legal,
+				'operation-fees': ops,
+				'insurance-fees': insurance,
+			});
 		} catch {
 			setError('Failed to update values');
 		}
 
-		console.log(dailyContributionRef.current.value);
 		setLoading(false);
+		setToggle(false);
 	};
 
 	useEffect(() => {
@@ -100,8 +114,9 @@ const HomeUser = () => {
 			const data = await projectFirestore.collection('users').get();
 			setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 		};
+
 		fetchData();
-	}, []);
+	}, [users]);
 
 	return (
 		<div>
@@ -109,76 +124,77 @@ const HomeUser = () => {
 			<DisplayDetails>
 				<h1 style={{ fontFamily: 'Titillium Web' }}>Sacco Member Details</h1>
 				<Cluster>
-					{currentData.map((member, index) => (
-						<React.Fragment key={index}>
-							<Section>
-								<Div>
-									<h2 style={{ fontFamily: 'Titillium Web' }}>
-										{member['first-name']} {member['last-name']}
-									</h2>
-									<span>
-										Daily Sacco Contribution: {member['daily-contribution']}Ksh
-									</span>
-									<span>Legal Fees: {member['legal-fees']}Ksh</span>
-									<span>Operation Fees: {member['operation-fees']}Ksh</span>
-									<span>Insurance Fees: {member['insurance-fees']}Ksh</span>
+					{users &&
+						users.map((member, index) => (
+							<React.Fragment key={index}>
+								<Section>
+									<Div>
+										<h2 style={{ fontFamily: 'Titillium Web' }}>
+											{member['first-name']} {member['last-name']}
+										</h2>
+										<span>
+											Daily Sacco Contribution: {member['daily-contribution']}
+											Ksh
+										</span>
+										<span>Legal Fees: {member['legal-fees']}Ksh</span>
+										<span>Operation Fees: {member['operation-fees']}Ksh</span>
+										<span>Insurance Fees: {member['insurance-fees']}Ksh</span>
+										<Btn onClick={() => handleToggle(index)}>
+											<FaPencilAlt />
+										</Btn>
 
-									<Btn onClick={() => handleToggle(index)}>
-										<FaPencilAlt />
-									</Btn>
-
-									{toggle && (
-										<Form onSubmit={handleSubmit}>
-											<hr />
-											<Form.Group>
-												<Form.Label>Daily Sacco Contribution:</Form.Label>
-												<Form.Control
-													onChange={() => handleChange(member.uuid)}
-													type='text'
-													ref={dailyContributionRef}
-													defaultValue={member['daily-contribution']}
-												/>
-											</Form.Group>
-											<Form.Group>
-												<Form.Label>Legal Fees:</Form.Label>
-												<Form.Control
-													onChange={() => handleChange(member.uuid)}
-													type='text'
-													ref={legalFeesRef}
-													defaultValue={member['legal-fees']}
-												/>
-											</Form.Group>
-											<Form.Group>
-												<Form.Label>Operation Fees:</Form.Label>
-												<Form.Control
-													onChange={() => handleChange(member.uuid)}
-													type='text'
-													ref={operationFeesRef}
-													defaultValue={member['operation-fees']}
-												/>
-											</Form.Group>
-											<Form.Group>
-												<Form.Label>Insurace Fees:</Form.Label>
-												<Form.Control
-													onChange={() => handleChange(member.uuid)}
-													type='text'
-													ref={insuranceFeesRef}
-													defaultValue={member['insurance-fees']}
-												/>
-											</Form.Group>
-											<Button
-												disabled={loading}
-												className='w-100 mt-3'
-												type='Submit'
-											>
-												Submit
-											</Button>
-										</Form>
-									)}
-								</Div>
-							</Section>
-						</React.Fragment>
-					))}
+										{toggle && (
+											<Form onSubmit={handleSubmit(member.id)}>
+												<hr />
+												<Form.Group>
+													<Form.Label>Daily Sacco Contribution:</Form.Label>
+													<Form.Control
+														type='text'
+														name='daily'
+														ref={dailyContributionRef}
+														onChange={handleChange}
+													/>
+												</Form.Group>
+												<Form.Group>
+													<Form.Label>Legal Fees:</Form.Label>
+													<Form.Control
+														type='text'
+														name='legal'
+														ref={legalFeesRef}
+														onChange={handleChange}
+													/>
+												</Form.Group>
+												<Form.Group>
+													<Form.Label>Operation Fees:</Form.Label>
+													<Form.Control
+														type='text'
+														name='ops'
+														ref={operationFeesRef}
+														onChange={handleChange}
+													/>
+												</Form.Group>
+												<Form.Group>
+													<Form.Label>Insurance Fees:</Form.Label>
+													<Form.Control
+														type='text'
+														name='insurance'
+														ref={insuranceFeesRef}
+														onChange={handleChange}
+													/>
+												</Form.Group>
+												<Button
+													disabled={loading}
+													className='w-100 mt-3'
+													type='Submit'
+												>
+													Submit
+												</Button>
+											</Form>
+										)}
+									</Div>
+								</Section>
+							</React.Fragment>
+						))}
 				</Cluster>
 				<button onClick={handleClick}></button>
 				{error && <Alert variant='danger'>{error}</Alert>}
